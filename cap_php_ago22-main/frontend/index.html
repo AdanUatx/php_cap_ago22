@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/principal.css" rel="stylesheet">
+    <title>API de Agenda de Contactos</title>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="row">
+    <div class="alert alert-success text-left">Agenda Telefonica</div>
+    </div>
+
+    <div class="row" style="display: none;">
+    <div id="mensajes_sistema"></div>
+    </div>
+    
+        <!-- seccion de filtro y resultados -->
+        <div id="seccion_filtro_tablero">
+            <div class="row">
+                <div class="col-12">
+                    <fieldset>
+                        <legend>Filtro de contactos</legend>
+                        <div class="row">
+                            <div class="col-lg-3 col-sm-6 col-xs-12">
+                                <input type="text" class="form-control" placeholder="Nombre">
+                            </div>
+                            <div class="col-lg-3 col-sm-6 col-xs-12">
+                                <input type="text" class="form-control" placeholder="Apellido paterno">
+                            </div>
+                            <div class="col-lg-3 col-sm-6 col-xs-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="genero_buscar" id="genero_h">
+                                    <label class="form-check-label" for="genero_h">
+                                        Masculino
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 col-xs-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="genero_buscar" id="genero_f">
+                                    <label class="form-check-label" for="genero_f">
+                                        Femenino
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12" style="text-align: right">
+                                <button id="buscar_contactos" type="button" class="btn btn-outline-success btn-sm">Buscar</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>  
+
+
+    <!-- tablero de empleados -->
+    <div class="row" id="contenedor_tablero_empleado">
+        <!-- boton de agregar uno nuevo -->
+        <div class="row">
+            <fieldset>
+                <legend>Tablero de resultados</legend>
+            </fieldset>
+            <div class="col-12" style="text-align: right">
+                <button type="button" id="btn_agregar_empleado" class="btn btn-outline-info btn-sm">Agregar empleado</button>
+            </div>
+        </div>
+        <table id="tableroEmpleados" class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre completo</th>
+                <!--<th>Dirección</th>-->
+                <th>Cumpleaños</th>
+                <th>Datos de contacto</th>
+                <th>Operaciones</th>
+            </tr>
+            </thead>
+            <tbody id="tbodyTableroEmpleados">
+
+            </tbody>
+        </table>
+    </div>
+    
+
+    <div class="row" id="contenedor_formulario_empleado" style="display: none">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    Formulario de empleado
+                </div>
+                <div class="card-body">
+                    <form id="form_empleado" >
+                        <div class="col-12">
+                            <label for="campo_nombre" class="form-label">Nombre</label>
+                            <input type="text" placeholder="Nombre" id="campo_nombre" class="form-control" name="nombre" required >
+                        </div>
+                        <div class="col-12">
+                            <label for="campo_paterno" class="form-label">Paterno</label>
+                            <input type="text" placeholder="Apellido paterno" id="campo_paterno" class="form-control" name="paterno" required >
+                        </div>
+                        <div class="col-12">
+                            <label for="campo_materno" class="form-label">Materno</label>
+                            <input type="text" placeholder="Apellido materno" id="campo_materno" class="form-control" name="materno" >
+                        </div>
+                        <div class="col-12">
+                            <label for="campo_direccion" class="form-label">Dirección</label>
+                            <input type="text" placeholder="Dirección" id="campo_direccion" class="form-control" name="direccion" required >
+                        </div>
+                        <div class="col-12">
+                            <label for="campo_fecha_nacimiento" class="form-label">Fecha de nacimiento</label>
+                            <input type="date" placeholder="Dirección" class="form-control" id="campo_fecha_nacimiento" required name="fecha_nacimiento" >
+                        </div>
+                        <div class="col-lg-3 col-sm-6 col-xs-12">
+                            <label for="campo_genero_h" class="form-label">Genero</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="genero" id="campo_genero_h" value="h" required>
+                                <label class="form-check-label" for="campo_genero_h">
+                                    Hombre
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="genero" id="campo_genero_m" value="m">
+                                <label class="form-check-label" for="campo_genero_m">
+                                    Mujer
+                                </label>
+                            </div>
+                        </div>
+                        
+
+                        <div class="card">
+                            <div class="card-header">
+                                Datos de contacto
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12" style="text-align: right">
+                                        <button type="button" class="btn btn-outline-info btn-sm" id="btn_agregar_row_contacto">Agregar</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <table class="table table-striped table-responsive">
+                                        <thead>
+                                        <tr>
+                                            <th>Tipo de contacto</th>
+                                            <th>Dato de contacto</th>
+                                            <th>Operaciones</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="tbody_listado_datos_contacto">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="btn_guardar_empleado" class="btn btn-outline-success btn-sm">Guardar</button>
+                        <button type="button" id="btn_cancelar_registro_empleado" class="btn btn-outline-dark btn-sm">Cancelar</button>
+                        <!--<button type="reset" id="btn_reiniciar_form" class="btn btn-outline-warning btn-sm">Reestabler</button>-->
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-l-3 col-md-1"></div>
+    </div>
+
+</div>
+
+<!-- scripts js -->
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="assets/js/variables.js"></script>
+<script src="assets/js/catalogos.js"></script>
+<script src="assets/js/principal.js"></script>
+</body>
+</html>
